@@ -17,6 +17,14 @@ type JsonProject = Omit<Project, 'date'> & {
 
 export const projects: JsonProject[] = [
   {
+    title: "Lexus Moving Sanctuary",
+    description: "Saloné",
+    link: 'https://random.studio/projects/a-moving-sanctuary-for-lexus',
+    date: '2026-04-21',
+    isDigital: false,
+    isPhysical: true
+  },
+  {
     title: "Goodison.Memorial",
     description: "Installation celebrating the history of Everton FC",
     link: 'https://goodison.memorial',
@@ -63,7 +71,6 @@ export const projects: JsonProject[] = [
     date: '2024-01-01',
     isDigital: true,
     isPhysical: false,
-    isWIP: true
   },
   {
     title: "R3F Touch Controller",

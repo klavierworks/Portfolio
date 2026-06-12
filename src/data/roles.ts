@@ -12,6 +12,13 @@ type JsonRole = Omit<Role, 'date'> & {
 
 export const roles: JsonRole[] = [
   {
+    title: "Random Studio",
+    description: "Creative Tech Lead",
+    link: "https://random.studio/",
+    date: '2025-10-01',
+    niceDate: '2025-',
+  },
+  {
     title: "Klavierworks",
     description: "Consultant",
     link: "https://klavier.works",
@@ -20,7 +27,7 @@ export const roles: JsonRole[] = [
   },
   {
     title: "Random Studio",
-    description: "Lead",
+    description: "Lead Developer",
     link: "https://random.studio/",
     date: '2020-01-01',
     niceDate: '2020-24',
