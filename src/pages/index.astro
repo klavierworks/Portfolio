@@ -1,110 +1,53 @@
 ---
-import Projects from '../components/Projects.astro';
-import { type Project, projects } from '../data/projects';
-
-const sortedProjects = projects.map(project => ({
-  ...project,
-  date: new Date(project.date),
-}) as Project).sort((a,b) => b.date.getTime() - a.date.getTime());
-
-const digital = sortedProjects.filter((project) => project.isDigital)
-
-const physical = sortedProjects.filter((project) => project.isPhysical);
-
+import AstonMachineText from '../components/AstonMachineText/AstonMachineText.astro';
 ---
 
-<html lang="en">
+<html lang="en" class="no-js">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Andrew Hill – Portfolio</title>
+		<title>Klavierworks – Creative Technology</title>
+    <script type="text/javascript">
+      document.documentElement.classList.remove('no-js');
+    </script>
 	</head>
 	<body>
-    <div class="bio">
-      <h1>Andrew Thomas Hill</h1>
-      <p>Creative Developer</p>
-      <a href="mailto:contact@andrewthomashill.co.uk">Email</a>
-    </div>
-    <Projects isDigital projects={digital} />
-    <Projects projects={physical} />
+    <AstonMachineText class="aston">
+      <p>This is the website of Andrew Hill,<br />Technology Lead for Random Studio.</p>
+      <p>Recent commercial work  for Apple,<br />Prada, Lexus, Boucheron, and Nike.</p>
+      <p><a href="mailto:contact@klavier.works">Get in touch.</a></p>
+    </AstonMachineText>
 	</body>
 </html>
 
 <style>
-  @font-face {
-    font-family: 'Acumin Pro';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Acumin Pro'), url('/fonts/Acumin-RPro.woff') format('woff');
-  }
-
-  @font-face {
-    font-family: 'Acumin Pro';
-    font-style: italic;
-    font-weight: normal;
-    src: local('Acumin Pro Italic'), url('/fonts/Acumin-ItPro.woff') format('woff');
-  }
 
   * {
     box-sizing: border-box;
   }
 
   :root {
-    --background-color: 237 237 237;
-    --text-color: 34 34 34;
+    --background-color: 4 4 3;
+    --text-color: 220 220 212;
+    --letter-spacing: -0.02em;
   }
-
-  html {
-    font-size: 12px;
-
-    @media (min-width: 420px) {
-      font-size: 14px;
-    }
-
-    @media (min-width: 820px) {
-      font-size: 16px;
-    }
-  }
-
+  
   body {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings:
-      "kern" 1,
-      "ss01" 1,
-      "liga",
-      "clig";
-    font-optical-sizing: auto;
-    font-variant-ligatures: common-ligatures;
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: -0.0125em;
-    -webkit-hyphenate-character: "-";
-    text-rendering: optimizeLegibility;
-    font-family: "Acumin Pro", Papyrus, sans-serif;
-    font-size: 62.5%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 32px;
+    line-height: 1.213;
+    letter-spacing: var(--letter-spacing);
 
-    background-color: var(--background-color);
-
-    max-width: 1440px;
-    margin: 0 auto;
+    color: rgb(var(--text-color));
+    background-color: rgb(var(--background-color));
+    margin: 0;
   }
 
-  .bio {
-    height: 33vh;
-    padding: 3rem 1rem;
-    font-size: 1.5rem;
-
-    h1, p, a {
-      font-weight: inherit;
-      font-size: inherit;
-      margin: 0 0 0.5em;
-      text-underline-offset: 0.2em;
-      color: inherit;
-    }
+  :global(.aston) {
+    --text-left: 5.5vw;
+    --text-top: 14.5vw;
+    --word-spacing: -0.036em;
   }
 </style>
