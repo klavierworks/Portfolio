@@ -1,5 +1,6 @@
 ---
 import AstonMachineText from '../components/AstonMachineText/AstonMachineText.astro';
+import site from '../data/sites';
 ---
 
 <html lang="en" class="no-js">
@@ -8,14 +9,14 @@ import AstonMachineText from '../components/AstonMachineText/AstonMachineText.as
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Klavierworks – Creative Technology</title>
+		<title>{site.title}</title>
     <script type="text/javascript">
       document.documentElement.classList.remove('no-js');
     </script>
 	</head>
 	<body>
     <AstonMachineText class="aston">
-      <p>This is the website of Andrew Hill,<br />Technology Lead for Random Studio.</p>
+      <p>{site.intro[0]}<br />{site.intro[1]}</p>
       <p>Recent commercial work  for Apple,<br />Prada, Lexus, Boucheron, and Nike.</p>
       <p><a href="mailto:contact@klavier.works">Get in touch.</a></p>
     </AstonMachineText>

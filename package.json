@@ -6,6 +6,9 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "build:andrewthomashill": "SITE_VARIANT=andrewthomashill astro build --outDir dist/andrewthomashill",
+    "build:klavierworks": "SITE_VARIANT=klavierworks astro build --outDir dist/klavierworks",
+    "build:all": "astro check && npm run build:andrewthomashill && npm run build:klavierworks",
     "preview": "astro preview",
     "astro": "astro"
   },
