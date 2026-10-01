@@ -17,6 +17,7 @@ export class OldDisplay extends HTMLElement {
   private motion?: Motion;
   private scale = 1;
   private displayScale = 1;
+  private textScale = 1;
   private reducedMotion = false;
   private visible = false;
   private frame = -1;
@@ -71,8 +72,10 @@ export class OldDisplay extends HTMLElement {
     this.measureWords();
   }
 
+  // Motion is sized to the text, as the glow is, so it keeps the same proportion to the words at any width
   private measureWords() {
-    this.motion!.measure(this.picture, this.displayScale * this.scale);
+    this.textScale = parseFloat(getComputedStyle(this.caption).fontSize) / config.glow.referenceFontSize;
+    this.motion!.measure(this.picture, this.displayScale * this.textScale);
   }
 
   private tick = (now: number) => {
@@ -84,7 +87,7 @@ export class OldDisplay extends HTMLElement {
     const frame = Math.floor(now / config.motion.frameMilliseconds);
     if (frame === this.frame) return;
     this.frame = frame;
-    this.motion!.step(this.scale);
+    this.motion!.step(this.textScale);
     this.noise.shuffle();
   };
 }

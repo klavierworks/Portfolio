@@ -1,5 +1,13 @@
 import { type Handler } from '@netlify/functions'
 
+// Plausible site for each host this function is deployed behind
+const PLAUSIBLE_DOMAINS: Record<string, string> = {
+  'andrewthomashill.co.uk': 'andrewthomashill.co.uk',
+  'www.andrewthomashill.co.uk': 'andrewthomashill.co.uk',
+  'klavier.works': 'klavier.works',
+  'www.klavier.works': 'klavier.works',
+};
+
 // Netlify serverless function for proxying events to Plausible
 export const handler: Handler = async (event) => {
   // Extract the request method and body
@@ -30,13 +38,22 @@ export const handler: Handler = async (event) => {
   if (!name || !url) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'Missing required fields: name, url, domain' }),
+      body: JSON.stringify({ error: 'Missing required fields: name, url' }),
+    };
+  }
+
+  const domain = PLAUSIBLE_DOMAINS[event.headers.host ?? ''];
+
+  if (!domain) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: 'Unknown host' }),
     };
   }
 
   // Construct the payload for Plausible
   const plausiblePayload = {
-    domain: 'andrewthomashill.co.uk',
+    domain,
     name,
     url,
     referrer,
@@ -88,7 +105,6 @@ export const handler: Handler = async (event) => {
 interface PlausibleEvent {
   name: string;
   url: string;
-  domain: string;
   referrer?: string;
   screen_width?: number;
   props?: Record<string, unknown>;

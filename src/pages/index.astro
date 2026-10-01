@@ -13,6 +13,11 @@ import site from '../data/sites';
     <script type="text/javascript">
       document.documentElement.classList.remove('no-js');
     </script>
+    <script>
+      import { logClicks, logPageView } from '../utils.ts';
+      logPageView();
+      logClicks();
+    </script>
 	</head>
 	<body>
     <AstonMachineText class="aston">
