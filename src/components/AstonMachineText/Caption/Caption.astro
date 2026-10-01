@@ -1,0 +1,84 @@
+<div class="caption">
+  <div class="stage">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .caption {
+    position: absolute;
+    /* The picture is drawn small and scaled up by --display-scale, so lengths are shrunk to match */
+    left: calc(var(--text-left) / var(--display-scale, 1));
+    top: calc(var(--text-top) / var(--display-scale, 1));
+    margin: 0;
+    font-size: calc(1em / var(--display-scale, 1));
+    /* Inherited em spacing arrives as body's pixels; the variables keep it relative to this font size */
+    letter-spacing: var(--letter-spacing);
+    word-spacing: var(--word-spacing);
+    white-space: nowrap;
+    animation: fade-in 0.7s linear 0.3s both;
+  }
+
+  :global(.no-js) .caption {
+    text-shadow: 0 0 0.1em rgb(var(--text-color) / 0.4);
+  }
+
+  .caption :global(p) {
+    margin: 0 0 1lh;
+  }
+
+  .caption :global(:is(h1, h2, h3)) {
+    font: inherit;
+    letter-spacing: inherit;
+    margin: 0;
+  }
+
+  .caption :global(a) {
+    --underline: currentColor;
+    color: inherit;
+    text-decoration: none;
+
+    @mixin mobile-friendly-hover {
+      --underline: transparent;
+    }
+  }
+
+  .caption :global(a .ink),
+  :global(.no-js) .caption :global(a) {
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.07em;
+    text-decoration-color: var(--underline);
+    text-underline-offset: 0.15em;
+    transition: text-decoration-color 0.3s;
+  }
+
+  .caption :global(em) {
+    font-style: italic;
+  }
+
+  .stage {
+    will-change: transform, opacity;
+  }
+
+  .stage :global(.word) {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .stage :global(.ink) {
+    display: inline-block;
+    padding: 0.37em;
+    margin: -0.37em;
+    filter: var(--filter);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .caption {
+      animation: none;
+    }
+  }
+</style>

@@ -1,27 +1,54 @@
 ---
-import Layout from '../layouts/layout.astro';
-import Projects from '../components/Projects.astro';
-import { type Project, projects } from '../data/projects';
-import { type Role, roles } from '../data/roles';
-
-const sortedProjects = projects.map(project => ({
-  ...project,
-  date: new Date(project.date),
-}) as Project).sort((a,b) => b.date.getTime() - a.date.getTime());
-
-const sortedRoles = roles.map(role => ({
-  ...role,
-  date: new Date(role.date),
-}) as Project).sort((a,b) => b.date.getTime() - a.date.getTime());
-
-const digital = sortedProjects.filter((project) => project.isDigital)
-
-const physical = sortedProjects.filter((project) => project.isPhysical);
-
+import AstonMachineText from '../components/AstonMachineText/AstonMachineText.astro';
+import site from '../data/sites';
 ---
-<Layout>
-  <Projects heading="" projects={[sortedRoles[0]]} />
-  <Projects heading="Previously at" projects={sortedRoles.slice(1)} />
-  <Projects heading="Often digital" projects={digital} />
-  <Projects heading="Somtimes physical" projects={physical} />
-</Layout>
+
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{site.title}</title>
+    <script type="text/javascript">
+      document.documentElement.classList.remove('no-js');
+    </script>
+	</head>
+	<body>
+    <AstonMachineText class="aston">
+      <p>{site.intro[0]}<br />{site.intro[1]}</p>
+      <p>Recent commercial work  for Apple,<br />Prada, Lexus, Boucheron, and Nike.</p>
+      <p><a href="mailto:contact@klavier.works">Get in touch.</a></p>
+    </AstonMachineText>
+	</body>
+</html>
+
+<style>
+
+  * {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --background-color: 4 4 3;
+    --text-color: 220 220 212;
+    --letter-spacing: -0.02em;
+  }
+  
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 32px;
+    line-height: 1.213;
+    letter-spacing: var(--letter-spacing);
+
+    color: rgb(var(--text-color));
+    background-color: rgb(var(--background-color));
+    margin: 0;
+  }
+
+  :global(.aston) {
+    --text-left: 5.5vw;
+    --text-top: 14.5vw;
+    --word-spacing: -0.036em;
+  }
+</style>

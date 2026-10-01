@@ -1,0 +1,53 @@
+---
+import Caption from './Caption/Caption.astro';
+import GlowFilter from './GlowFilter/GlowFilter.astro';
+import Noise from './Noise/Noise.astro';
+import { astonMachineConfig } from './config';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const { referenceWidth, referenceHeight } = astonMachineConfig.picture;
+const filterId = `old-display-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+<old-display
+  class={className}
+  style={`--filter: url(#${filterId}); --aspect-ratio: ${referenceWidth} / ${referenceHeight};`}
+>
+  <div class="picture">
+    <Caption><slot /></Caption>
+    <Noise />
+  </div>
+  <GlowFilter id={filterId} />
+</old-display>
+
+<style>
+  old-display {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--aspect-ratio);
+    overflow: hidden;
+    background: rgb(var(--background-color));
+  }
+
+  .picture {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform-origin: 0 0;
+    will-change: transform;
+    background: rgb(var(--background-color));
+  }
+</style>
+
+<script>
+  import { OldDisplay } from './OldDisplay';
+
+  if (!customElements.get('old-display')) customElements.define('old-display', OldDisplay);
+</script>

@@ -1,0 +1,54 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" class="filters">
+  <filter id={id} x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feOffset data-axis="x" data-step="1" in="SourceAlpha" result="x1" />
+    <feComposite in="SourceAlpha" in2="x1" operator="arithmetic" k2="0.5" k3="0.5" result="x1a" />
+    <feOffset data-axis="x" data-step="2" in="x1a" result="x2" />
+    <feComposite in="x1a" in2="x2" operator="arithmetic" k2="0.5" k3="0.5" result="x2a" />
+    <feOffset data-axis="x" data-step="4" in="x2a" result="x4" />
+    <feComposite in="x2a" in2="x4" operator="arithmetic" k2="0.5" k3="0.5" result="x4a" />
+    <feOffset data-axis="x" data-step="centre" in="x4a" result="bx" />
+    <feOffset data-axis="y" data-step="1" in="bx" result="y1" />
+    <feComposite in="bx" in2="y1" operator="arithmetic" k2="0.5" k3="0.5" result="y1a" />
+    <feOffset data-axis="y" data-step="2" in="y1a" result="y2" />
+    <feComposite in="y1a" in2="y2" operator="arithmetic" k2="0.5" k3="0.5" result="y2a" />
+    <feOffset data-axis="y" data-step="4" in="y2a" result="y4" />
+    <feComposite in="y2a" in2="y4" operator="arithmetic" k2="0.5" k3="0.5" result="y4a" />
+    <feOffset data-axis="y" data-step="centre" in="y4a" result="box" />
+    <feGaussianBlur data-blur="round" in="box" result="soft" />
+    <feComponentTransfer in="soft" result="bled">
+      <feFuncA type="table" tableValues="0 0.0167 0.0335 0.0503 0.0672 0.0842 0.1013 0.1185 0.1357 0.153 0.1705 0.188 0.2056 0.2233 0.2411 0.259 0.277 0.2952 0.3134 0.3318 0.3503 0.3689 0.3877 0.4066 0.4257 0.4449 0.4643 0.4838 0.5036 0.5236 0.5437 0.5641 0.5848 0.6057 0.6268 0.6483 0.6701 0.6923 0.7149 0.7379 0.7615 0.7857 0.8105 0.8362 0.863 0.8912 0.9213 0.9548 1" />
+    </feComponentTransfer>
+    <feGaussianBlur data-blur="near" in="soft" result="near" />
+    <feGaussianBlur data-blur="far" in="soft" result="far" />
+    <feComposite in="bled" in2="near" operator="arithmetic" k2="0.44" k3="0.09" result="halo" />
+    <feComposite in="halo" in2="far" operator="arithmetic" k2="1" k3="0.025" result="glow" />
+    <feComponentTransfer in="glow" result="shaped">
+      <feFuncA type="table" tableValues="0 0.0313 0.0625 0.0938 0.125 0.1563 0.1875 0.2188 0.25 0.2813 0.3125 0.3438 0.375 0.4063 0.4375 0.4688 0.5 0.5313 0.5625 0.5938 0.625 0.6562 0.6856 0.7124 0.737 0.7594 0.78 0.7988 0.816 0.8317 0.8461 0.8592 0.8712 0.8822 0.8923 0.9015 0.9099 0.9176 0.9246 0.9311 0.937 0.9424 0.9473 0.9518 0.9559 0.9597 0.9631 0.9663 0.9691 0.9718 0.9742 0.9764 0.9784 0.9803 0.9819 0.9835 0.9849 0.9862 0.9874 0.9884 0.9894 0.9903 0.9912 0.9919 0.9926" />
+    </feComponentTransfer>
+    <feFlood data-ink result="ink" />
+    <feComponentTransfer in="ink" result="fill">
+      <feFuncR data-ink-gain type="linear" />
+      <feFuncG data-ink-gain type="linear" />
+      <feFuncB data-ink-gain type="linear" />
+    </feComponentTransfer>
+    <feComposite in="fill" in2="shaped" operator="in" />
+  </filter>
+</svg>
+
+<style>
+  .filters {
+    position: absolute;
+  }
+
+  [data-ink] {
+    flood-color: currentColor;
+  }
+</style>
