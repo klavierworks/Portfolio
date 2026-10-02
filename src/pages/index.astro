@@ -1,6 +1,5 @@
 ---
 import AstonMachineText from '../components/AstonMachineText/AstonMachineText.astro';
-import TheRear from '../components/TheRear/TheRear';
 import site from '../data/sites';
 ---
 
@@ -21,14 +20,28 @@ import site from '../data/sites';
     </script>
 	</head>
 	<body>
-    <div class="overlay" id="overlay">
+    <div class="rear" data-rear></div>
+    <div class="overlay" data-rear-overlay>
       <AstonMachineText class="aston">
         <p>{site.intro[0]}<br />{site.intro[1]}</p>
         <p>Recent commercial work  for Apple,<br />Prada, Lexus, Boucheron, and Nike.</p>
         <p><a href="mailto:contact@klavier.works">Get in touch.</a></p>
       </AstonMachineText>
+      <div class="status" data-rear-status data-state="loading">
+        <AstonMachineText class="aston">
+          <p><span class="loading"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span><a class="close" href="#" data-rear-close>x</a></p>
+        </AstonMachineText>
+      </div>
     </div>
-    <TheRear client:only="react" overlayId="overlay" />
+    <div class="return" data-rear-return hidden>
+      <AstonMachineText class="aston">
+        <p><a class="close" href="#" data-rear-return-link>Return</a></p>
+      </AstonMachineText>
+    </div>
+    <script>
+      import { scheduleTheRear } from '../components/TheRear/scheduleTheRear';
+      scheduleTheRear();
+    </script>
 	</body>
 </html>
 
@@ -63,18 +76,62 @@ import site from '../data/sites';
     overflow: auto;
     padding: 14.5vw 5.5vw 0;
     background-color: rgb(var(--background-color));
+  }
 
-    > :global(*) {
-      transition: opacity 600ms ease-out;
-    }
+  .rear {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+  }
 
-    &:global(.isFading) > :global(*) {
-      opacity: 0;
-    }
+  .status {
+    position: absolute;
+    top: 5.5vw;
+    right: 5.5vw;
 
-    &:global(.isHidden) {
+    &[data-state='loading'] .close,
+    &[data-state='ready'] .loading {
       display: none;
     }
+  }
+
+  .return {
+    --background-color: 0 0 0;
+    position: fixed;
+    top: 5.5vw;
+    right: 5.5vw;
+    z-index: 2;
+  }
+
+  /* Scoped under each container so it outranks AstonMachine's own link underline */
+  .status .close,
+  .status .close :global(.ink),
+  .return .close,
+  .return .close :global(.ink) {
+    text-decoration: none;
+  }
+
+  /* The dots stay laid out while hidden, so the text never changes width and the picture is not re-measured */
+  .dot:nth-child(2) {
+    animation: dot-two 1.2s infinite;
+  }
+
+  .dot:nth-child(3) {
+    animation: dot-three 1.2s infinite;
+  }
+
+  @keyframes dot-two {
+    0%, 33.3% { visibility: hidden; }
+    33.4%, 100% { visibility: visible; }
+  }
+
+  @keyframes dot-three {
+    0%, 66.6% { visibility: hidden; }
+    66.7%, 100% { visibility: visible; }
   }
 
   :global(.aston) {
