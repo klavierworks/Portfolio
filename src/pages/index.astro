@@ -59,7 +59,7 @@ import site from '../data/sites';
   
   body {
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1.28;
     letter-spacing: var(--letter-spacing);
@@ -67,6 +67,10 @@ import site from '../data/sites';
     color: rgb(var(--text-color));
     background-color: rgb(var(--background-color));
     margin: 0;
+
+    @media (min-width: 600px) {
+      font-size: 32px;
+    }
   }
 
   .overlay {
@@ -74,8 +78,28 @@ import site from '../data/sites';
     inset: 0;
     z-index: 1;
     overflow: auto;
-    padding: 14.5vw 5.5vw 0;
+    padding: 0 5.5vw;
     background-color: rgb(var(--background-color));
+
+    /* The free height is split a third above the text and two thirds below */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    /* display: flex would otherwise override the hidden attribute TheRear uses to reveal FF8 */
+    &[hidden] {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+      flex: 1 0 0;
+    }
+
+    &::after {
+      content: '';
+      flex: 2 0 0;
+    }
   }
 
   .rear {

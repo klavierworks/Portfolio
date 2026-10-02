@@ -3,7 +3,7 @@ import { wrapWords } from './Caption/words';
 import { astonMachineConfig as config } from './config';
 import { setInkGain, sizeGlow } from './GlowFilter/glow';
 import { Noise } from './Noise/noise';
-import { layoutPicture } from './picture';
+import { effectStrength, layoutPicture } from './picture';
 
 // WebKit gives any non-zero feGaussianBlur a minimum size, so small blurs come out far softer than requested.
 // Every iOS browser is WebKit, and Blink keeps "AppleWebKit" in its user agent alongside "Chrome/".
@@ -17,6 +17,7 @@ export class OldDisplay extends HTMLElement {
   private motion?: Motion;
   private displayScale = 1;
   private textScale = 1;
+  private effect = 1;
   private reducedMotion = false;
   private visible = false;
   private frame = -1;
@@ -26,7 +27,6 @@ export class OldDisplay extends HTMLElement {
 
   connectedCallback() {
     this.picture = this.querySelector('.picture')!;
-    if (isWebKit()) this.picture.style.filter = `blur(${config.pictureWebKit.blurPixels}px)`;
     this.caption = this.querySelector('.caption')!;
     this.filter = this.querySelector('filter')!;
     this.noise = new Noise(
@@ -60,9 +60,13 @@ export class OldDisplay extends HTMLElement {
   }
 
   private refresh() {
+    // A hidden display has no size to draw noise for; the resize observer calls again once it is shown
+    if (!this.picture.offsetWidth || !this.picture.offsetHeight) return;
     this.displayScale = layoutPicture(this, this.picture, config.picture, config.glow.referenceFontSize);
+    this.effect = effectStrength(this, config.picture);
+    if (isWebKit()) this.picture.style.filter = `blur(${config.pictureWebKit.blurPixels * this.effect}px)`;
     this.measureWords();
-    sizeGlow(this.filter, this.caption, isWebKit() ? { ...config.glow, ...config.glowWebKit } : config.glow);
+    sizeGlow(this.filter, this.caption, isWebKit() ? { ...config.glow, ...config.glowWebKit } : config.glow, this.effect);
 
     const noiseBrightness = this.noise.build(this.textScale, this.picture.offsetWidth, this.picture.offsetHeight);
     const flickerBrightness = this.reducedMotion ? 1 : this.motion!.averageBrightness;
@@ -84,7 +88,7 @@ export class OldDisplay extends HTMLElement {
     const frame = Math.floor(now / config.motion.frameMilliseconds);
     if (frame === this.frame) return;
     this.frame = frame;
-    this.motion!.step(this.textScale);
+    this.motion!.step(this.textScale * this.effect);
     this.noise.shuffle();
   };
 }

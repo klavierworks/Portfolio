@@ -12,3 +12,10 @@ export function layoutPicture(host: HTMLElement, picture: HTMLElement, config: P
   host.style.height = `${picture.offsetHeight * displayScale}px`;
   return displayScale;
 }
+
+// The effects are sized to the text, but the pixel grid is not, so on small text they smear strokes only a pixel or two wide.
+// Returns 1 at or above fullEffectSize device pixels, falling off faster than the text below it.
+export function effectStrength(host: HTMLElement, config: PictureConfig) {
+  const deviceFontSize = parseFloat(getComputedStyle(host).fontSize) * (devicePixelRatio || 1);
+  return Math.min(1, (deviceFontSize / config.fullEffectSize) ** config.effectFalloff);
+}

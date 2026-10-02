@@ -1,7 +1,7 @@
 import type { GlowConfig } from '../config';
 
-export function sizeGlow(filter: SVGFilterElement, caption: HTMLElement, config: GlowConfig) {
-  const textScale = parseFloat(getComputedStyle(caption).fontSize) / config.referenceFontSize;
+export function sizeGlow(filter: SVGFilterElement, caption: HTMLElement, config: GlowConfig, effect: number) {
+  const textScale = parseFloat(getComputedStyle(caption).fontSize) / config.referenceFontSize * effect;
   const pixelRatio = devicePixelRatio || 1;
   const snapToDevicePixel = (value: number) => Math.round(value * pixelRatio) / pixelRatio;
   const aspectFactor = Math.sqrt(config.blurAspect);

@@ -2,6 +2,9 @@ export const astonMachineConfig = {
   picture: {
     // Device pixels per reference pixel, where the reference sets the text at glow.referenceFontSize
     maxDeviceScale: 1,
+    // Below this text size in device pixels the blurs, glow and motion are reduced so small text stays legible
+    fullEffectSize: 32,
+    effectFalloff: 1.5,
   },
   glow: {
     referenceFontSize: 97.25,
