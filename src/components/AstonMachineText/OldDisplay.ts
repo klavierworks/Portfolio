@@ -15,7 +15,6 @@ export class OldDisplay extends HTMLElement {
   private filter!: SVGFilterElement;
   private noise!: Noise;
   private motion?: Motion;
-  private scale = 1;
   private displayScale = 1;
   private textScale = 1;
   private reducedMotion = false;
@@ -34,14 +33,14 @@ export class OldDisplay extends HTMLElement {
       this.querySelector('.noise .grain')!,
       this.querySelector('.noise .unevenness')!,
       config.noise,
-      config.picture,
     );
     this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const stage = this.querySelector<HTMLElement>('.stage')!;
     this.motion ??= new Motion(stage, wrapWords(stage), config.motion);
 
     this.resizeObserver = new ResizeObserver(() => this.refresh());
-    this.resizeObserver.observe(this);
+    // The picture's natural size follows the font size, which is what the layout depends on
+    this.resizeObserver.observe(this.picture);
     document.fonts.ready.then(() => this.measureWords());
 
     if (!this.reducedMotion) {
@@ -61,15 +60,13 @@ export class OldDisplay extends HTMLElement {
   }
 
   private refresh() {
-    const layout = layoutPicture(this, this.picture, config.picture);
-    if (layout) ({ scale: this.scale, displayScale: this.displayScale } = layout);
+    this.displayScale = layoutPicture(this, this.picture, config.picture, config.glow.referenceFontSize);
+    this.measureWords();
     sizeGlow(this.filter, this.caption, isWebKit() ? { ...config.glow, ...config.glowWebKit } : config.glow);
 
-    const noiseBrightness = this.noise.build(this.scale);
+    const noiseBrightness = this.noise.build(this.textScale, this.picture.offsetWidth, this.picture.offsetHeight);
     const flickerBrightness = this.reducedMotion ? 1 : this.motion!.averageBrightness;
     setInkGain(this.filter, 1 / (noiseBrightness * flickerBrightness));
-
-    this.measureWords();
   }
 
   // Motion is sized to the text, as the glow is, so it keeps the same proportion to the words at any width

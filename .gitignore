@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# FF8 extracted game data, copied from the ff8 repo
+public/data/

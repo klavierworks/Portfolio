@@ -1,5 +1,6 @@
 ---
 import AstonMachineText from '../components/AstonMachineText/AstonMachineText.astro';
+import TheRear from '../components/TheRear/TheRear';
 import site from '../data/sites';
 ---
 
@@ -20,11 +21,14 @@ import site from '../data/sites';
     </script>
 	</head>
 	<body>
-    <AstonMachineText class="aston">
-      <p>{site.intro[0]}<br />{site.intro[1]}</p>
-      <p>Recent commercial work  for Apple,<br />Prada, Lexus, Boucheron, and Nike.</p>
-      <p><a href="mailto:contact@klavier.works">Get in touch.</a></p>
-    </AstonMachineText>
+    <div class="overlay" id="overlay">
+      <AstonMachineText class="aston">
+        <p>{site.intro[0]}<br />{site.intro[1]}</p>
+        <p>Recent commercial work  for Apple,<br />Prada, Lexus, Boucheron, and Nike.</p>
+        <p><a href="mailto:contact@klavier.works">Get in touch.</a></p>
+      </AstonMachineText>
+    </div>
+    <TheRear client:only="react" overlayId="overlay" />
 	</body>
 </html>
 
@@ -37,13 +41,14 @@ import site from '../data/sites';
   :root {
     --background-color: 4 4 3;
     --text-color: 220 220 212;
-    --letter-spacing: -0.02em;
+    --letter-spacing: -0.055em;
   }
   
   body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 32px;
-    line-height: 1.213;
+    font-weight: 700;
+    line-height: 1.28;
     letter-spacing: var(--letter-spacing);
 
     color: rgb(var(--text-color));
@@ -51,9 +56,28 @@ import site from '../data/sites';
     margin: 0;
   }
 
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: auto;
+    padding: 14.5vw 5.5vw 0;
+    background-color: rgb(var(--background-color));
+
+    > :global(*) {
+      transition: opacity 600ms ease-out;
+    }
+
+    &:global(.isFading) > :global(*) {
+      opacity: 0;
+    }
+
+    &:global(.isHidden) {
+      display: none;
+    }
+  }
+
   :global(.aston) {
-    --text-left: 5.5vw;
-    --text-top: 14.5vw;
     --word-spacing: -0.036em;
   }
 </style>

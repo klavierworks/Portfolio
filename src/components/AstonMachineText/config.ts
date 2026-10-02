@@ -1,12 +1,11 @@
 export const astonMachineConfig = {
   picture: {
-    referenceWidth: 1896,
-    referenceHeight: 1440,
-    maxDeviceRows: 1440,
+    // Device pixels per reference pixel, where the reference sets the text at glow.referenceFontSize
+    maxDeviceScale: 1,
   },
   glow: {
     referenceFontSize: 97.25,
-    edgeWidth: 6,
+    edgeWidth: 0,
     edgeRounding: 3,
     blurAspect: 0.85,
     nearHaloRadius: 10,

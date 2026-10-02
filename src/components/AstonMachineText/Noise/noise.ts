@@ -1,4 +1,4 @@
-import type { NoiseConfig, PictureConfig } from '../config';
+import type { NoiseConfig } from '../config';
 import { gaussian, seeded } from '../random';
 
 function fillNoise(
@@ -32,13 +32,9 @@ export class Noise {
     private grain: HTMLCanvasElement,
     private unevenness: HTMLCanvasElement,
     private config: NoiseConfig,
-    private picture: PictureConfig,
   ) {}
 
-  build(scale: number) {
-    const width = this.picture.referenceWidth * scale;
-    const height = this.picture.referenceHeight * scale;
-
+  build(scale: number, width: number, height: number) {
     const grainCell = this.config.grainCellSize * scale;
     const grainMean = fillNoise(
       this.grain, grainCell,

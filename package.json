@@ -14,9 +14,15 @@
   },
   "dependencies": {
     "@astrojs/check": "0.9.3",
+    "@astrojs/react": "3.6.3",
     "@netlify/functions": "2.8.1",
     "@types/node": "20.16.5",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
     "astro": "4.15.3",
+    "ff8": "github:klavierworks/ff8#library",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "typescript": "5.5.4"
   },
   "devDependencies": {
