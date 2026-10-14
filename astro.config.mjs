@@ -23,6 +23,7 @@ const FF8_DEPENDENCIES = [
 
 // https://astro.build/config
 export default defineConfig({
+  devToolbar: { enabled: false },
   integrations: [react()],
   vite: {
     // FF8 is consumed as TypeScript source and uses import.meta.glob, which the dependency

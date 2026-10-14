@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 
-const Ff8 = lazy(() => import('ff8').then(({ Ff8 }) => ({ default: Ff8 })));
+const FF8World = lazy(() => import('ff8').then(({ FF8World }) => ({ default: FF8World })));
 
 const ASSET_BASE_URL = 'https://pub-39d91795b685449d997592b64671328c.r2.dev/data/';
 const START_FIELD = 'eccway12';
@@ -84,7 +84,7 @@ const TheRear = ({ closeLink, overlay, returnControl, returnLink, status }: TheR
 
   return (
     <Suspense fallback={null}>
-      <Ff8
+      <FF8World
         assetBaseUrl={ASSET_BASE_URL}
         hasIntroTransition
         isActive={isActive}
