@@ -20,7 +20,7 @@ import site from '../data/sites';
     </script>
 	</head>
 	<body>
-    <div class="rear" data-rear></div>
+    <div class="rear" data-rear data-asset-base-url={site.assetBaseUrl}></div>
     <div class="overlay" data-rear-overlay>
       <AstonMachineText class="aston">
         <p>{site.intro[0]}<br />{site.intro[1]}</p>

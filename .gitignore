@@ -23,8 +23,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# Local Netlify folder
-.netlify
+# Local Wrangler state
+.wrangler
 
 # FF8 extracted game data, copied from the ff8 repo
 public/data/

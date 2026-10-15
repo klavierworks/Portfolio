@@ -10,12 +10,13 @@
     "build:klavierworks": "SITE_VARIANT=klavierworks astro build --outDir dist/klavierworks",
     "build:all": "astro check && npm run build:andrewthomashill && npm run build:klavierworks",
     "preview": "astro preview",
+    "deploy:andrewthomashill": "wrangler deploy -c wrangler.andrewthomashill.jsonc",
+    "deploy:klavierworks": "wrangler deploy -c wrangler.klavierworks.jsonc",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "0.9.3",
     "@astrojs/react": "3.6.3",
-    "@netlify/functions": "2.8.1",
     "@types/node": "20.16.5",
     "@types/react": "18.3.31",
     "@types/react-dom": "18.3.7",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "postcss-mixins": "10.0.1",
-    "postcss-preset-env": "10.0.2"
+    "postcss-preset-env": "10.0.2",
+    "wrangler": "4.145.0"
   }
 }

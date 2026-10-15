@@ -1,5 +1,5 @@
 export const logPageView = () =>
-  fetch('/.netlify/functions/stats', {
+  fetch('/stats', {
     method: 'POST',
     body: JSON.stringify({
       name: 'pageview',
@@ -27,7 +27,7 @@ export const logClicks = () =>
       return;
     }
 
-    fetch('/.netlify/functions/stats', {
+    fetch('/stats', {
       method: 'POST',
       body: JSON.stringify({
         name: 'outbound_link_click',

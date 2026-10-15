@@ -1,0 +1,20 @@
+// Worker for klavier.works. Deploy with: npx wrangler deploy -c wrangler.klavierworks.jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "klavierworks-portfolio",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "build": {
+    "command": "npm run build:klavierworks"
+  },
+  "assets": {
+    "directory": "dist/klavierworks",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "PLAUSIBLE_DOMAIN": "klavier.works"
+  },
+  "routes": [
+    { "pattern": "klavier.works", "custom_domain": true }
+  ]
+}

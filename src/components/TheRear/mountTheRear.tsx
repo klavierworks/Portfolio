@@ -11,5 +11,10 @@ type TheRearElements = {
 };
 
 export const mountTheRear = ({ rear, ...props }: TheRearElements) => {
-  createRoot(rear).render(<TheRear {...props} />);
+  // Set per site at build time, as client code can't read SITE_VARIANT
+  const assetBaseUrl = rear.dataset.assetBaseUrl;
+  if (!assetBaseUrl) {
+    throw new Error('TheRear needs data-asset-base-url on [data-rear]');
+  }
+  createRoot(rear).render(<TheRear assetBaseUrl={assetBaseUrl} {...props} />);
 };

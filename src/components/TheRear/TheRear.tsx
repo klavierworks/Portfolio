@@ -2,11 +2,11 @@ import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 
 const FF8World = lazy(() => import('ff8').then(({ FF8World }) => ({ default: FF8World })));
 
-const ASSET_BASE_URL = 'https://pub-39d91795b685449d997592b64671328c.r2.dev/data/';
 const START_FIELD = 'eccway12';
 const OVERLAY_FADE_MILLISECONDS = 600;
 
 type TheRearProps = {
+  assetBaseUrl: string;
   closeLink: HTMLElement;
   overlay: HTMLElement;
   returnControl: HTMLElement;
@@ -35,7 +35,7 @@ const fadeInOverlay = async (overlay: HTMLElement) => {
   animations.forEach((animation) => animation.cancel());
 };
 
-const TheRear = ({ closeLink, overlay, returnControl, returnLink, status }: TheRearProps) => {
+const TheRear = ({ assetBaseUrl, closeLink, overlay, returnControl, returnLink, status }: TheRearProps) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -85,7 +85,7 @@ const TheRear = ({ closeLink, overlay, returnControl, returnLink, status }: TheR
   return (
     <Suspense fallback={null}>
       <FF8World
-        assetBaseUrl={ASSET_BASE_URL}
+        assetBaseUrl={assetBaseUrl}
         hasIntroTransition
         isActive={isActive}
         onExited={handleExited}
