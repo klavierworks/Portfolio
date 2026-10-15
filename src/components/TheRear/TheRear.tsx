@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 
 const FF8World = lazy(() => import('ff8').then(({ FF8World }) => ({ default: FF8World })));
 
-const START_FIELD = 'eccway12';
+const START_FIELD = 'ffbrdg1';
 const OVERLAY_FADE_MILLISECONDS = 600;
 
 type TheRearProps = {
@@ -90,6 +90,9 @@ const TheRear = ({ assetBaseUrl, closeLink, overlay, returnControl, returnLink, 
         isActive={isActive}
         onExited={handleExited}
         onReady={handleReady}
+        shouldSyncUrl
+        initialParty={[0, 1, 3]}
+        initialProgress={4019}
         startField={START_FIELD}
       />
     </Suspense>
