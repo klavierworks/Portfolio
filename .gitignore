@@ -25,6 +25,3 @@ pnpm-debug.log*
 
 # Local Wrangler state
 .wrangler
-
-# FF8 extracted game data, copied from the ff8 repo
-public/data/
