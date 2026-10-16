@@ -1,4 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { clearRearFromUrl, getUrlField, hasClosedInUrl, markClosedInUrl } from './rearUrl';
 
 const FF8World = lazy(() => import('ff8').then(({ FF8World }) => ({ default: FF8World })));
 
@@ -37,7 +38,9 @@ const fadeInOverlay = async (overlay: HTMLElement) => {
 
 const TheRear = ({ assetBaseUrl, closeLink, overlay, returnControl, returnLink, status }: TheRearProps) => {
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  // A visitor who closed the overlay before comes back straight into TheRear, where the URL left off
+  const [isActive, setIsActive] = useState(hasClosedInUrl);
+  const [startField] = useState(() => (isActive && getUrlField()) || START_FIELD);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleReady = useCallback(() => {
@@ -60,6 +63,7 @@ const TheRear = ({ assetBaseUrl, closeLink, overlay, returnControl, returnLink, 
     }
     const handleClose = async (event: MouseEvent) => {
       event.preventDefault();
+      markClosedInUrl();
       setIsTransitioning(true);
       await fadeOutOverlay(overlay);
       setIsActive(true);
@@ -75,6 +79,7 @@ const TheRear = ({ assetBaseUrl, closeLink, overlay, returnControl, returnLink, 
     }
     const handleReturn = (event: MouseEvent) => {
       event.preventDefault();
+      clearRearFromUrl();
       setIsTransitioning(true);
       setIsActive(false);
     };
@@ -90,10 +95,11 @@ const TheRear = ({ assetBaseUrl, closeLink, overlay, returnControl, returnLink, 
         isActive={isActive}
         onExited={handleExited}
         onReady={handleReady}
-        shouldSyncUrl
+        // FF8 only reads the URL on its first render, and only writes it while this is on
+        shouldSyncUrl={isActive}
         initialParty={[0, 1, 3]}
         initialProgress={4019}
-        startField={START_FIELD}
+        startField={startField}
       />
     </Suspense>
   );

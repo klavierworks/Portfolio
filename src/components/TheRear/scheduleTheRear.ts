@@ -1,4 +1,5 @@
 import { installReactRefresh } from './installReactRefresh';
+import { hasClosedInUrl } from './rearUrl';
 
 const IDLE_TIMEOUT_MILLISECONDS = 2000;
 
@@ -31,12 +32,17 @@ const getElement = (selector: string) => {
 };
 
 // React, TheRear and FF8 are only requested once the page has loaded and the text animation is
-// already drawing, so none of it competes with the first render.
+// already drawing, so none of it competes with the first render. A visitor returning with hasClosed
+// skips the overlay entirely, so there is nothing to wait for.
 export const scheduleTheRear = async () => {
-  await waitForPageLoad();
-  await waitForFrame();
-  await waitForFrame();
-  await waitForIdle();
+  if (hasClosedInUrl()) {
+    getElement('[data-rear-overlay]').hidden = true;
+  } else {
+    await waitForPageLoad();
+    await waitForFrame();
+    await waitForFrame();
+    await waitForIdle();
+  }
 
   await installReactRefresh();
   const { mountTheRear } = await import('./mountTheRear');
