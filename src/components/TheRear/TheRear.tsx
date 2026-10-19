@@ -3,7 +3,7 @@ import { clearRearFromUrl, getUrlField, hasClosedInUrl, markClosedInUrl } from '
 
 const FF8World = lazy(() => import('ff8').then(({ FF8World }) => ({ default: FF8World })));
 
-const START_FIELD = 'ffbrdg1';
+const START_FIELD = 'bccent_1';
 const OVERLAY_FADE_MILLISECONDS = 600;
 
 type TheRearProps = {
