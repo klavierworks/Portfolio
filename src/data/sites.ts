@@ -2,11 +2,13 @@ const sites = {
   andrewthomashill: {
     title: 'Andrew Thomas Hill - Technologist',
     intro: ['This is the website of Andrew Hill,', 'Technology Lead for Random Studio.'],
+    url: 'https://andrewthomashill.co.uk/',
     assetBaseUrl: 'https://assets.andrewthomashill.co.uk/data/',
   },
   klavierworks: {
     title: 'Klavierworks - Creative Technology',
     intro: ['This is the website of Klavierworks,', 'a creative technology consultancy.'],
+    url: 'https://klavier.works/',
     assetBaseUrl: 'https://assets.klavier.works/data/',
   },
 };
